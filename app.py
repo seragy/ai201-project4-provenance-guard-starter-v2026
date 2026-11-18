@@ -30,6 +30,7 @@ from flask import Flask, jsonify, request
 
 import audit
 import config
+import detector
 
 app = Flask(__name__)
 
@@ -199,17 +200,90 @@ def submit():
     what should this do when `text` is missing, empty, or enormous? A crash on
     a malformed input is one of the most common real failures there is.
     """
-    payload = request.get_json(silent=True) or {}
+    payload = request.get_json(silent=True)
+    creator_id = payload.get("creator_id") if isinstance(payload, dict) else None
 
-    # TODO: delete this and build the route.
+    problem = _validate_submission(payload)
+    if problem:
+        code, message = problem
+        audit.log_rejection(
+            creator_id=creator_id if isinstance(creator_id, str) and creator_id.strip() else "unknown",
+            reason=code,
+        )
+        return jsonify({"error": code, "message": message}), 400
+
+    text = payload["text"].strip()
+    creator_id = creator_id.strip()
+    content_id = str(uuid.uuid4())
+
+    try:
+        model_score = detector.model_signal(text)
+    except ValueError:
+        # gpt2 needs a few tokens to be surprised by anything.
+        audit.log_rejection(creator_id=creator_id, reason="text_too_short")
+        return jsonify({
+            "error": "text_too_short",
+            "message": "This is too short to judge. Please submit at least a few sentences.",
+        }), 400
+    except detector.DetectorUnavailable as exc:
+        return jsonify({"error": "detector_unavailable", "message": str(exc)}), 503
+
+    # Milestone 3: one signal. Confidence and label are placeholders until M4/M5.
+    style_score = None
+    confidence = None
+    guess = "pending"
+    label = "PLACEHOLDER — label comes in Milestone 5."
+
+    audit.log_decision(
+        content_id=content_id,
+        creator_id=creator_id,
+        guess=guess,
+        model_score=model_score,
+        style_score=style_score,
+        combined_score=confidence,
+        label=label,
+        status="decided",
+    )
+
     return jsonify({
-        "error": "not_implemented",
-        "message": "POST /submit isn't built yet — see the TODO in app.py.",
-        "you_sent": {
-            "text_length": len(payload.get("text", "")),
-            "creator_id": payload.get("creator_id"),
-        },
-    }), 501
+        "content_id": content_id,
+        "creator_id": creator_id,
+        "guess": guess,
+        "confidence": confidence,
+        "label": label,
+        "model_score": model_score,
+        "style_score": style_score,
+        "status": "decided",
+    })
+
+
+def _validate_submission(payload):
+    """
+    Return (error_code, plain_message) for a request we refuse, or None.
+
+    Decided up front (design.md §4) so the attack set doesn't decide it for me:
+    nothing gets scored that can't be scored honestly.
+    """
+    if not isinstance(payload, dict):
+        return "invalid_json", "Send a JSON object with 'text' and 'creator_id'."
+    if "text" not in payload or payload.get("text") is None:
+        return "missing_text", "There's no text to look at. Include a 'text' field."
+    if not isinstance(payload["text"], str):
+        return "missing_text", "'text' must be a string."
+    text = payload["text"].strip()
+    if not text:
+        return "empty_text", "The text is empty."
+    if len(text) > config.MAX_TEXT_CHARS:
+        return "text_too_long", (
+            f"That's longer than we can check in one go "
+            f"({len(text):,} characters; the limit is {config.MAX_TEXT_CHARS:,})."
+        )
+    if len(text.split()) < config.MIN_TEXT_WORDS:
+        return "text_too_short", "This is too short to judge. Please submit at least a few sentences."
+    creator_id = payload.get("creator_id")
+    if not isinstance(creator_id, str) or not creator_id.strip():
+        return "missing_creator_id", "Include a 'creator_id' saying who wrote this."
+    return None
 
 
 @app.post("/appeal")

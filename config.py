@@ -47,6 +47,16 @@ DETECTOR_MODEL = os.getenv("AI201_DETECTOR_MODEL", "gpt2")
 DETECTOR_MAX_TOKENS = 400
 
 
+# ─── Input limits ────────────────────────────────────────────────────────────
+# Anything outside these is refused with a 400 and logged as a rejection,
+# never scored. 20,000 characters is ~3,500 words — a long essay — and gpt2
+# only reads the first 400 tokens anyway, so anything longer would be judged
+# on a fraction of itself. Under 5 words there's nothing to measure.
+
+MAX_TEXT_CHARS = 20_000
+MIN_TEXT_WORDS = 5
+
+
 # ─── Scoring (Milestone 4) ───────────────────────────────────────────────────
 # How much each signal counts toward the combined score.
 #

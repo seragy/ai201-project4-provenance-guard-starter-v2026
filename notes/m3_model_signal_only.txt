@@ -1,0 +1,16 @@
+input             expect    model
+clearly AI        AI        0.888
+clearly AI 2      AI        0.913
+clearly AI 3      AI        0.821
+clearly AI 4      AI        0.963
+clearly AI 5      AI        0.849
+clearly human     human     0.510
+clearly human 2   human     0.373
+clearly human 3   human     0.435
+clearly human 4   human     0.488
+clearly human 5   human     0.599
+plain human       human     0.620
+plain human 2     human     0.548
+formal human      human     0.089
+edited AI         AI        0.680
+edited AI 2       AI        0.561
