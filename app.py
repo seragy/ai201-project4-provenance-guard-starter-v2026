@@ -31,6 +31,8 @@ from flask import Flask, jsonify, request
 import audit
 import config
 import detector
+import scoring
+import stylometry
 
 app = Flask(__name__)
 
@@ -228,9 +230,9 @@ def submit():
     except detector.DetectorUnavailable as exc:
         return jsonify({"error": "detector_unavailable", "message": str(exc)}), 503
 
-    # Milestone 3: one signal. Confidence and label are placeholders until M4/M5.
-    style_score = None
-    confidence = None
+    style_score = stylometry.style_signal(text)
+    confidence = scoring.combine_signals(model_score, style_score)
+    # Milestone 4: label is still a placeholder until Milestone 5.
     guess = "pending"
     label = "PLACEHOLDER — label comes in Milestone 5."
 

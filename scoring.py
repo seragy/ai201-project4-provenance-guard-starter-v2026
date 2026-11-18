@@ -52,11 +52,23 @@ def combine_signals(model_score: float, style_score: float) -> float:
     The weights in config.py are placeholders. Change them, or ignore them and
     write a different rule.
     """
-    # TODO: replace this
-    return (
+    # The rule (written down first — README "The combining rule"):
+    #   1. Weighted average, model 0.6 / style 0.4. Signal one separates my
+    #      calibration set better, so it counts more — but not so much that it
+    #      can accuse anyone on its own.
+    #   2. Disagreement veto: the AI label needs BOTH signals to lean AI. If the
+    #      average clears the AI threshold but either signal is below
+    #      AGREEMENT_FLOOR, the score is capped just under the AI threshold, so
+    #      the item lands in "unsure" instead of being accused.
+    #   There is no matching veto on the human side — being wrong toward
+    #   "human" costs a missed detection; being wrong toward "AI" costs a writer.
+    score = (
         config.WEIGHT_MODEL_SIGNAL * model_score
         + config.WEIGHT_STYLE_SIGNAL * style_score
     )
+    if score >= config.AI_THRESHOLD and min(model_score, style_score) < config.AGREEMENT_FLOOR:
+        score = config.AI_THRESHOLD - 0.01
+    return round(min(max(score, 0.0), 1.0), 4)
 
 
 def score_to_label(score: float) -> tuple[str, str]:

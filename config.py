@@ -64,8 +64,12 @@ MIN_TEXT_WORDS = 5
 # down BEFORE you code it, and to put the numbers in your README. Whatever you
 # decide, it goes here.
 
-WEIGHT_MODEL_SIGNAL = 0.5
-WEIGHT_STYLE_SIGNAL = 0.5
+WEIGHT_MODEL_SIGNAL = 0.6
+WEIGHT_STYLE_SIGNAL = 0.4
+
+# The disagreement veto in scoring.combine_signals: the AI label needs BOTH
+# signals at or above this. One signal alone can never accuse a writer.
+AGREEMENT_FLOOR = 0.5
 
 
 # ─── Thresholds (Milestone 5) ────────────────────────────────────────────────
@@ -81,8 +85,17 @@ WEIGHT_STYLE_SIGNAL = 0.5
 # getting through. There is no setting that avoids the trade — only settings
 # that decide who pays for it.
 
-HUMAN_THRESHOLD = 0.35
-AI_THRESHOLD = 0.65
+# My numbers, from the 15 calibration inputs in calibration.py:
+#   - every human text scored 0.25–0.49; every clearly-AI text 0.79–0.96
+#   - AI_THRESHOLD 0.72 sits ~0.23 above the highest human score, leaving room
+#     for writers plainer than any in my set (signal one's blind spot)
+#   - HUMAN_THRESHOLD 0.40 — below it the system says "a person", which is the
+#     cheap direction to be wrong in, so it can sit closer to the middle
+#   - the unsure band (0.40–0.72) is deliberately wide: it is where
+#     lightly-edited AI and plain human writing both land, and the system
+#     can't tell them apart there, so it says so
+HUMAN_THRESHOLD = 0.40
+AI_THRESHOLD = 0.72
 
 # ⚠️ One thing that catches people out in Milestone 5. A weighted average can
 # only land between its two inputs — so while `style_signal` is still the stub

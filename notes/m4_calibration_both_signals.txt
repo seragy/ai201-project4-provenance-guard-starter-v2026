@@ -1,0 +1,17 @@
+input             expect   model  style combined  guess   spread   ttr punct
+----------------------------------------------------------------------------
+clearly AI        AI       0.888  0.777    0.844  ai        0.31  0.91  1.72
+clearly AI 2      AI       0.913  0.942    0.924  ai        0.19  0.92  0.00
+clearly AI 3      AI       0.821  0.894    0.850  ai        0.13  0.92  1.43
+clearly AI 4      AI       0.963  0.942    0.955  ai        0.18  0.91  0.00
+clearly AI 5      AI       0.849  0.707    0.792  ai        0.40  0.89  1.59
+clearly human     human    0.510  0.381    0.458  unsure    0.39  0.88 10.59
+clearly human 2   human    0.373  0.078    0.255  human     0.87  0.83 10.94
+clearly human 3   human    0.435  0.453    0.443  unsure    1.04  0.89  1.79
+clearly human 4   human    0.488  0.085    0.327  human     0.97  0.83 10.94
+clearly human 5   human    0.599  0.124    0.409  unsure    1.00  0.87 10.00
+plain human       human    0.620  0.299    0.492  unsure    0.76  0.76  2.70
+plain human 2     human    0.548  0.244    0.426  unsure    0.46  0.78 11.32
+formal human      human    0.089  0.485    0.248  human     0.34  0.97  9.09
+edited AI         AI       0.680  0.174    0.478  unsure    0.76  0.88  7.69
+edited AI 2       AI       0.561  0.390    0.493  unsure    0.62  0.91  5.66
