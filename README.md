@@ -342,24 +342,41 @@ changed what I did:
 
 ## Rate Limiting
 
-**My limits:** ___ per minute, ___ per day
+**My limits:** 5 per minute, 50 per day, on `POST /submit` (`config.py`:
+`RATE_LIMIT_PER_MINUTE`, `RATE_LIMIT_PER_DAY`; decorator on `app.py::submit`).
 
-**Why those numbers and not others:**
-<!-- Think about two people: a real writer submitting their own work a few
-     times an hour, and a script sending a thousand variations to map your
-     thresholds. Your numbers have to be liveable for the first and hostile to
-     the second. -->
+**Why those numbers and not others:** A real writer posts a piece, maybe spots
+a typo and resubmits, maybe posts a second piece. That's 2–3 requests in a
+busy minute, so 5 leaves headroom and nobody honest ever sees a 429. A script
+trying to map where my 0.40 and 0.72 thresholds sit needs hundreds of small
+variations. At 5 a minute it gets 5 probes and then waits, and at 50 a day it
+gets about 5% of what it needs per identity per day. Nobody on a writing site
+publishes 50 pieces in a day, so the daily cap only ever bites a script. I
+went lower than the starter's 10/200 because the attacker here gains a lot from
+each extra probe (the score comes back in every response), while the writer
+gains nothing from the extra room.
 
-**What a caller counts as:** <!-- per address, or per creator_id? They fail
-differently — one script can look like a thousand callers, and one household
-can look like one. -->
+**What a caller counts as:** the `creator_id` (`app.py::rate_limit_key`),
+falling back to the IP address when a request has no usable creator_id. This
+is fair to a household or a classroom sharing one IP, which a per-address
+limit would lump together as one caller. The cost is that it's spoofable: one
+script can send each request as a new creator_id and never hit the limit. A
+real deployment would add a looser per-address limit on top (say 30/minute)
+and tie creator_id to a logged-in account. I didn't add the per-address limit
+here because every row of the attack set comes from my own laptop under its own
+creator_id, so it would 429 the attack run itself and hide the results.
 
-**The run of status codes when I pushed past it:**
-
-<!-- python run_attacks.py --flood 15 -->
+**The run of status codes when I pushed past it** (`python run_attacks.py
+--flood 15`, saved in `results/flood_2026-11-18_1424.md`):
 
 ```
+200 200 200 200 200 429 429 429 429 429 429 429 429 429 429
+```
 
+10 of 15 were rate limited, and each 429 wrote a rejection to the audit log:
+
+```json
+{"creator_id":"flood_tester","event":"rejected","limit":"5 per 1 minute","reason":"rate_limited","status":"rejected","timestamp":"2026-11-18T19:24:01+00:00"}
 ```
 
 ---
