@@ -1,0 +1,159 @@
+### SUBMIT clearly AI 2
+{"text": "Regular exercise offers numerous benefits for both physical and mental health. It helps to strengthen the heart, improve circulation, and maintain a healthy weight. In addition, physical activity can reduce stress and anxiety while boosting overall mood. Experts recommend at least 150 minutes of moderate exercise each week. By making exercise a regular part of your routine, you can enjoy a healthier and happier life.", "creator_id": "writer_ai"}
+200 {
+  "confidence": 0.9244,
+  "content_id": "f8d95d18-9ed9-4b89-8716-28f054f37db6",
+  "creator_id": "writer_ai",
+  "guess": "ai",
+  "label": "Our automated check thinks this looks a lot like AI-generated writing. Checks like ours do get human writing wrong, so this is not a final decision. If you wrote this yourself, you can appeal: a person will review it, and it will show as under review until they do.",
+  "model_score": 0.9129,
+  "status": "decided",
+  "style_score": 0.9417
+}
+### SUBMIT clearly human 2
+{"text": "ours is even worse. The old Juventus logo was great, but it does look old fashioned (nothing wrong with it though). I understand why they would remake it... somewhat.\n\nMeanwhile our old one was already timeless, with that minimalistic flair that is line with today's sensibilities-- you couldn't tell it was over 80 years old. Still can't wrap my head why they changed it.", "creator_id": "writer_human"}
+200 {
+  "confidence": 0.2551,
+  "content_id": "c783ad04-02fa-4c38-b464-4d3548639c9e",
+  "creator_id": "writer_human",
+  "guess": "human",
+  "label": "We think a person wrote this. Our check found the natural variety we usually see in human writing.",
+  "model_score": 0.3731,
+  "status": "decided",
+  "style_score": 0.078
+}
+### SUBMIT plain human
+{"text": "This exactly. Sterling said part of his reason for wanting to go was lack of playing time. I feel like what he communicated poorly was it was due to a lack of playing time in the crucial matches. He was the player with the 3rd most minutes played in the city squad, behind Ederson & Cancelo, but when you look at the times he wasn't playing, it was the games where the stakes were higher", "creator_id": "writer_plain"}
+200 {
+  "confidence": 0.4917,
+  "content_id": "7d87f5e2-e99c-4da2-b4ce-41707ebd4a3c",
+  "creator_id": "writer_plain",
+  "guess": "unsure",
+  "label": "We can't tell whether this was written by a person or with help from an AI tool, so we're not making a call either way. That happens a lot with clear, straightforward writing, and it says nothing bad about yours. If you wrote it yourself, you can tell us more and a person will take a look.",
+  "model_score": 0.6204,
+  "status": "decided",
+  "style_score": 0.2986
+}
+### APPEAL
+{"content_id": "7d87f5e2-e99c-4da2-b4ce-41707ebd4a3c", "reasoning": "I wrote this myself, in one go, on my phone during the match. I write short and plain on purpose - that's just how I post."}
+200 {
+  "appealed_at": "2026-11-18T19:13:41+00:00",
+  "content_id": "7d87f5e2-e99c-4da2-b4ce-41707ebd4a3c",
+  "message": "Thanks \u2014 your appeal is recorded. A person will review this piece, and the automated label is under review until they do.",
+  "original_guess": "unsure",
+  "status": "under_review"
+}
+### APPEAL bad id 404 {'error': 'unknown_content_id', 'message': "We couldn't find a submission with that id. Check it matches the content_id you were given."}
+### APPEAL no reasoning 400 {'error': 'missing_reasoning', 'message': 'Tell us in a sentence or two why you think we got this wrong.'}
+### BAD {"text": "", "creator_id": "x"} 400 {'error': 'empty_text', 'message': 'The text is empty.'}
+### BAD {"text": "   ", "creator_id": "x"} 400 {'error': 'empty_text', 'message': 'The text is empty.'}
+### BAD {"creator_id": "x"} 400 {'error': 'missing_text', 'message': "There's no text to look at. Include a 'text' field."}
+### BAD {"text": null, "creator_id": "x"} 400 {'error': 'missing_text', 'message': "There's no text to look at. Include a 'text' field."}
+### BAD {"text": "word word word word word word word word word word  400 {'error': 'text_too_long', 'message': "That's longer than we can check in one go (249,999 characters; the limit is 20,000)."}
+### BAD [1, 2] 400 {'error': 'invalid_json', 'message': "Send a JSON object with 'text' and 'creator_id'."}
+### BAD {"text": "Too short.", "creator_id": "x"} 400 {'error': 'text_too_short', 'message': 'This is too short to judge. Please submit at least a few sentences.'}
+### BAD {"text": "A perfectly normal sentence with enough words in i 400 {'error': 'missing_creator_id', 'message': "Include a 'creator_id' saying who wrote this."}
+### LOG
+{
+  "count": 12,
+  "entries": [
+    {
+      "combined_score": 0.9244,
+      "content_id": "f8d95d18-9ed9-4b89-8716-28f054f37db6",
+      "creator_id": "writer_ai",
+      "guess": "ai",
+      "label": "Our automated check thinks this looks a lot like AI-generated writing. Checks like ours do get human writing wrong, so this is not a final decision. If you wrote this yourself, you can appeal: a person will review it, and it will show as under review until they do.",
+      "model_score": 0.9129,
+      "status": "decided",
+      "style_score": 0.9417,
+      "timestamp": "2026-11-18T19:13:41+00:00"
+    },
+    {
+      "combined_score": 0.2551,
+      "content_id": "c783ad04-02fa-4c38-b464-4d3548639c9e",
+      "creator_id": "writer_human",
+      "guess": "human",
+      "label": "We think a person wrote this. Our check found the natural variety we usually see in human writing.",
+      "model_score": 0.3731,
+      "status": "decided",
+      "style_score": 0.078,
+      "timestamp": "2026-11-18T19:13:41+00:00"
+    },
+    {
+      "combined_score": 0.4917,
+      "content_id": "7d87f5e2-e99c-4da2-b4ce-41707ebd4a3c",
+      "creator_id": "writer_plain",
+      "guess": "unsure",
+      "label": "We can't tell whether this was written by a person or with help from an AI tool, so we're not making a call either way. That happens a lot with clear, straightforward writing, and it says nothing bad about yours. If you wrote it yourself, you can tell us more and a person will take a look.",
+      "model_score": 0.6204,
+      "status": "decided",
+      "style_score": 0.2986,
+      "timestamp": "2026-11-18T19:13:41+00:00"
+    },
+    {
+      "content_id": "7d87f5e2-e99c-4da2-b4ce-41707ebd4a3c",
+      "creator_id": "writer_plain",
+      "event": "appeal",
+      "reasoning": "I wrote this myself, in one go, on my phone during the match. I write short and plain on purpose - that's just how I post.",
+      "status": "under_review",
+      "timestamp": "2026-11-18T19:13:41+00:00"
+    },
+    {
+      "creator_id": "x",
+      "event": "rejected",
+      "reason": "empty_text",
+      "status": "rejected",
+      "timestamp": "2026-11-18T19:13:41+00:00"
+    },
+    {
+      "creator_id": "x",
+      "event": "rejected",
+      "reason": "empty_text",
+      "status": "rejected",
+      "timestamp": "2026-11-18T19:13:41+00:00"
+    },
+    {
+      "creator_id": "x",
+      "event": "rejected",
+      "reason": "missing_text",
+      "status": "rejected",
+      "timestamp": "2026-11-18T19:13:41+00:00"
+    },
+    {
+      "creator_id": "x",
+      "event": "rejected",
+      "reason": "missing_text",
+      "status": "rejected",
+      "timestamp": "2026-11-18T19:13:41+00:00"
+    },
+    {
+      "creator_id": "x",
+      "event": "rejected",
+      "reason": "text_too_long",
+      "status": "rejected",
+      "timestamp": "2026-11-18T19:13:41+00:00"
+    },
+    {
+      "creator_id": "unknown",
+      "event": "rejected",
+      "reason": "invalid_json",
+      "status": "rejected",
+      "timestamp": "2026-11-18T19:13:41+00:00"
+    },
+    {
+      "creator_id": "x",
+      "event": "rejected",
+      "reason": "text_too_short",
+      "status": "rejected",
+      "timestamp": "2026-11-18T19:13:41+00:00"
+    },
+    {
+      "creator_id": "unknown",
+      "event": "rejected",
+      "reason": "missing_creator_id",
+      "status": "rejected",
+      "timestamp": "2026-11-18T19:13:41+00:00"
+    }
+  ]
+}
+### PING {'ok': True, 'service': 'provenance-guard', 'you_sent': 'still alive?'}

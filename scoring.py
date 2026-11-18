@@ -97,12 +97,31 @@ def score_to_label(score: float) -> tuple[str, str]:
     think if they got it on their own work. That question is the whole
     milestone.
     """
-    # TODO: replace this — thresholds are in config.py
     if score >= config.AI_THRESHOLD:
-        return "ai", "PLACEHOLDER — write the high-confidence AI label."
-    if score <= config.HUMAN_THRESHOLD:
-        return "human", "PLACEHOLDER — write the high-confidence human label."
-    return "unsure", "PLACEHOLDER — write the unsure label."
+        return "ai", LABEL_AI
+    if score < config.HUMAN_THRESHOLD:
+        return "human", LABEL_HUMAN
+    return "unsure", LABEL_UNSURE
+
+
+LABEL_HUMAN = (
+    "We think a person wrote this. Our check found the natural variety we "
+    "usually see in human writing."
+)
+
+LABEL_UNSURE = (
+    "We can't tell whether this was written by a person or with help from an "
+    "AI tool, so we're not making a call either way. That happens a lot with "
+    "clear, straightforward writing, and it says nothing bad about yours. If "
+    "you wrote it yourself, you can tell us more and a person will take a look."
+)
+
+LABEL_AI = (
+    "Our automated check thinks this looks a lot like AI-generated writing. "
+    "Checks like ours do get human writing wrong, so this is not a final "
+    "decision. If you wrote this yourself, you can appeal: a person will "
+    "review it, and it will show as under review until they do."
+)
 
 
 def label_ranges() -> list[tuple[str, str]]:
@@ -111,7 +130,7 @@ def label_ranges() -> list[tuple[str, str]]:
     label text — given to you so the numbers can't drift apart from config.py.
     """
     return [
-        ("high-confidence human", f"0.00 – {config.HUMAN_THRESHOLD:.2f}"),
-        ("unsure", f"{config.HUMAN_THRESHOLD:.2f} – {config.AI_THRESHOLD:.2f}"),
-        ("high-confidence AI", f"{config.AI_THRESHOLD:.2f} – 1.00"),
+        ("high-confidence human", f"0.00 ≤ score < {config.HUMAN_THRESHOLD:.2f}"),
+        ("unsure", f"{config.HUMAN_THRESHOLD:.2f} ≤ score < {config.AI_THRESHOLD:.2f}"),
+        ("high-confidence AI", f"{config.AI_THRESHOLD:.2f} ≤ score ≤ 1.00"),
     ]
